@@ -1,4 +1,9 @@
 from flask import Flask, jsonify, redirect, url_for, request
+from dotenv import load_dotenv
+load_dotenv()
+import os
+
+# import token from .env -> `os.environ.get("api-token")`
 
 app = Flask(__name__)
 

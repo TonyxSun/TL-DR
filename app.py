@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, redirect, url_for, request
 from src.setup import setup
 from src.account import create_user, login_user, request_verify_user, verify_user
-from src.tldr import tldr
+from src.tldr import check_version, tldr
 from dotenv import load_dotenv
 load_dotenv()
 import os, cohere
@@ -61,15 +61,30 @@ def verify():
 
 @app.route('/analyze', methods = ['POST'])
 def analyze():
+    version_num = -1
     if request.method == 'POST':
         print(request)
         content = request.json
         user_id = content['user_id']
+        if 'version' in content:
+            version_num = content['version']
         if 'input_data' in content:
             input_data = content['input_data']
         else:
             return {"response": "No input"}
 
+    # check for existing version
+    if (check_version(user_id, input_data) == 1):
+        if (version_num == 1 or version_num == -1): # user requesting new version
+            # fetch original text 
+            print("new")    
+            return
+        else: # user requesting old version
+            # fetch text
+            print("old")
+            return 
+            
+        
     # transform into text
     urlUsed = scraper.validateUrl(input_data)
     if (urlUsed):
@@ -81,12 +96,37 @@ def analyze():
     # print(tldr_text)
     # generate sentiment (pos, neg, neut)
     sentiment_res = nlp.generateSentiment(co, input_data)
+    sentiment = sentiment_res[0]
+    negVal = sentiment_res[1]['negative']
+    posVal = sentiment_res[1]['positive']
+    neuVal = sentiment_res[1]['neutral']
+
     if (urlUsed):
-        resp = tldr(user_id, url, "", tldr_text.replace("'", "\""))
+        resp = tldr(user_id, "", tldr_text.replace("'", "\""), sentiment, negVal, posVal, neuVal, version_num, url)
     else:
-        resp = tldr(user_id, "", input_data.replace("'", "\""), tldr_text.replace("'", "\""))
+        resp = tldr(user_id, input_data.replace("'", "\""), tldr_text.replace("'", "\""), sentiment, negVal, posVal, neuVal, version_num, "")
     
     return {"response": resp, "tldr": tldr_text, "sentiment_obj": sentiment_res[1]}
+
+
+# @app.route('/revise', methods = ['POST'])
+# def revise():
+#     if request.method == 'POST':
+#         print(request)
+#         content = request.json
+#         user_id = content['user_id']
+#         if 'input_data' in content:
+#             user_data = content['input_data']
+#         else:
+#             return {"response": "No input"}
+#         original_text = content['original_text']
+
+#     # check for existing version
+#     if (check_version(user_id, original_text) == 1):
+        
+            
+        
+  
 
 if __name__ == '__main__':
     # setup()

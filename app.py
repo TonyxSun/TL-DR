@@ -6,6 +6,8 @@ from dotenv import load_dotenv
 load_dotenv()
 import os, cohere
 import src.nlp as nlp
+import src.scraper as scraper
+import json
 
 os.system("curl --create-dirs -o $HOME/.postgresql/root.crt -O https://cockroachlabs.cloud/clusters/02d0901b-5fb2-4a67-b68c-654b2c8c7731/cert")
 
@@ -63,13 +65,25 @@ def analyze():
         print(request)
         content = request.json
         user_id = content['user_id']
-        input_text = content['input_data']
+        if 'input_data' in content:
+            input_data = content['input_data']
+        else:
+            return {"response": "No input"}
+
+    # transform into text
+    if (scraper.validateUrl(input_data)):
+        t = scraper.scrape(input_data)
+        # print(t)
+        input_data = t
     
-    tldr_text = nlp.generateSummery(co, input_text)
-    # can get other attributes (like sentiment weight)
-    sentiment_res = nlp.generateSentiment(co, input_text)
-    resp = tldr(user_id, "", input_text.replace("'", "\""), tldr_text.replace("'", "\""))
-    return {"response": resp}
+    
+    # generate TLDR
+    tldr_text = nlp.generateSummery(co, input_data)
+    # print(tldr_text)
+    # generate sentiment (pos, neg, neut)
+    sentiment_res = nlp.generateSentiment(co, input_data)
+    resp = tldr(user_id, "", input_data.replace("'", "\""), tldr_text.replace("'", "\""))
+    return {"response": resp, "tldr": tldr_text, "sentiment_obj": json.dumps(sentiment_res)}
 
 if __name__ == '__main__':
     # setup()

@@ -18,6 +18,7 @@ class DB():
     conn = self._connection
     try:
       with conn.cursor() as cur:
+          conn.rollback()
           cur.execute(line, vars)
           row = cur.fetchone()
           conn.commit()

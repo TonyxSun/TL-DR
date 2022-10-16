@@ -7,8 +7,10 @@ def logout(user_id):
   pass
 def create(email, password, phone_number):
   with DB() as db:
-    db.exec_single(f"""SELECT 1 FROM users WHERE email = "{email}";""")
-    db.exec_single(f"""SELECT 1 FROM users WHERE phone_number = "{phone_number}";""")
+    one = db.exec_single(f"""SELECT 1 FROM users WHERE email = "{email}";""")
+    two = db.exec_single(f"""SELECT 1 FROM users WHERE phone_number = "{phone_number}";""")
+    return f"{one}, {two}"
+    # db.exec_single(f"""""")
 
 def verify(email, token):
   pass

@@ -7,6 +7,6 @@ chrome.tabs.executeScript( {
   // alert(selection[0]);
 });
 
-window.open("https://tldrit.azurewebsites.net/login", '_blank');
+window.open("https://tldr-lac.vercel.app/login", '_blank');
 
 render(<App />, document.body);

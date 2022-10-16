@@ -16,8 +16,7 @@ def login_user(email, password):
     if db.exec_single(("SELECT 1 FROM users WHERE email = %s;", (email, ))) == None:
       return {"success": False, "error": f"email {email} does not exist"}
 
-    hashed_password = db.exec_single(f"""SELECT encrypted_password FROM users WHERE email = '{email}';""")[0]
-
+    hashed_password = db.exec_single(("SELECT encrypted_password FROM users WHERE email = %s;", (email, )))[0]
 
     password_correct = check_password(password, hashed_password)
 
@@ -34,13 +33,12 @@ def create_user(email, password, phone_number):
       return {"success": False, "error": f"phone number {phone_number} already exists"}
     hashed_password = get_hashed_password(password)
     db.exec_single(("INSERT INTO users (email, phone_number, encrypted_password) VALUES (%s, %s, %s)", (email, phone_number, hashed_password)))
-    print(db.exec_single(f"SELECT * from users")) 
     return {"success": True}
 
 def request_verify_user(email):
   token = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
   with DB() as db:
-    db.exec_single(f"INSERT INTO users (token) VALUES ('{token}') WHERE email = {email};")
+    db.exec_single(("INSERT INTO users (token) VALUES (%s) WHERE email = %s;", (token, email)))
 
     print(db.exec_single(f"SELECT * FROM users"))
   return {"success": True}

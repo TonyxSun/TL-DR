@@ -43,4 +43,4 @@ def setup():
     ])
     setup_state = False
 
-  setup()
+  # setup()

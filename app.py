@@ -83,7 +83,7 @@ def analyze():
     # generate sentiment (pos, neg, neut)
     sentiment_res = nlp.generateSentiment(co, input_data)
     resp = tldr(user_id, "", input_data.replace("'", "\""), tldr_text.replace("'", "\""))
-    return {"response": resp, "tldr": tldr_text, "sentiment_obj": json.dumps(sentiment_res)}
+    return {"response": resp, "tldr": tldr_text, "sentiment_obj": sentiment_res[1]}
 
 if __name__ == '__main__':
     # setup()

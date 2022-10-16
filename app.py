@@ -1,11 +1,11 @@
 from flask import Flask, jsonify, redirect, url_for, request
 from src.setup import setup
 from src.account import create
+from src.tldr import tldr
 from dotenv import load_dotenv
 load_dotenv()
-import os
-import cohere
-import nlp
+import os, cohere
+import src.nlp as nlp
 
 os.system("curl --create-dirs -o $HOME/.postgresql/root.crt -O https://cockroachlabs.cloud/clusters/02d0901b-5fb2-4a67-b68c-654b2c8c7731/cert")
 
@@ -30,17 +30,19 @@ def signup():
     
 
 @app.route('/analyze', methods = ['POST'])
-def analyse():
+def analyze():
     if request.method == 'POST':
         print(request)
-        user_req = request.form['user_data']
-        data_req = request.form['input_data']
+        content = request.json
+        user_id = content['user_id']
+        input_text = content['input_data']
     
-    tldr = nlp.generateSummery(co, data_req)
+    tldr_text = nlp.generateSummery(co, input_text)
     # can get other attributes (like sentiment weight)
-    sentiment_res = nlp.generateSentiment(co, data_req)
-    return {"tldr": tldr, "sentiment": sentiment_res.prediction}
+    sentiment_res = nlp.generateSentiment(co, input_text)
+    resp = tldr(user_id, "", input_text.replace("'", "\""), tldr_text.replace("'", "\""))
+    return {"response": resp}
 
 if __name__ == '__main__':
     # setup()
-    app.run()
+    app.run(port=8000, debug=True)

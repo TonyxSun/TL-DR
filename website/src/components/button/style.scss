@@ -1,0 +1,16 @@
+.button {
+  padding: 0.5em 0;
+  font-size: 1em;
+  border: 4px solid black;
+  box-shadow: 0.5em 0.5em 0 black;
+  color: black;
+  letter-spacing: 0.2em;
+  width: 200px;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  transition: 0.2s ease all;
+  &:hover {
+    box-shadow: 0.25em 0.25em 0 black;
+  }
+}

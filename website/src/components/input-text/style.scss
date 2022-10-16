@@ -1,0 +1,48 @@
+.input {
+  font-size: 1em;
+  color: black;
+  font-weight: 500;
+  width: 100%;
+  margin-top: 1em;
+  display: block;
+  border-bottom: 4px solid black;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.input .label {
+  position: absolute;
+  pointer-events: none;
+  transition: 0.2s ease all;
+  left: 0;
+  top: 50%;
+  // top: 0;
+  // transform: translateY(-50%);
+}
+
+.input input {
+  text-align: left;
+  border: none;
+  outline: none;
+  font-size: 1em;
+  padding: 0.5em 0;
+  letter-spacing: 0.1em;
+  // &:focus ~ .label {
+  //   top: 0%;
+  //   // transform: translateY(50%);
+  // }
+  // &:not(:focus):valid ~ .label {
+  //   top: 0%;
+  //   // transform: translateY(50%);
+  // }
+}
+
+.input input:focus ~ .label {
+  top: 0%;
+  // transform: translateY(50%);
+}
+
+.input input:not(:focus):valid ~ .label {
+  top: 0%;
+  // transform: translateY(50%);
+}

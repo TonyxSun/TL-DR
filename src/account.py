@@ -13,11 +13,10 @@ def check_password(plain_text_password, hashed_password):
 
 def login_user(email, password):
   with DB() as db:
-    if db.exec_single(f"""SELECT 1 FROM users WHERE email = '{email}';""") == None:
+    if db.exec_single(("SELECT 1 FROM users WHERE email = %s;", (email, ))) == None:
       return {"success": False, "error": f"email {email} does not exist"}
 
     hashed_password = db.exec_single(f"""SELECT encrypted_password FROM users WHERE email = '{email}';""")[0]
-    hashed_password = hashed_password.replace("||||", "$")
 
 
     password_correct = check_password(password, hashed_password)
@@ -26,15 +25,15 @@ def login_user(email, password):
     
 def logout_user(user_id):
   pass
+
 def create_user(email, password, phone_number):
   with DB() as db:
-    if db.exec_single(f"""SELECT 1 FROM users WHERE email = '{email}';""") != None:
+    if db.exec_single(("SELECT * FROM users WHERE email = %s", (email, ))) != None:
       return {"success": False, "error": f"email {email} already exists"}
-    elif db.exec_single(f"""SELECT 1 FROM users WHERE phone_number = '{phone_number}';""") != None:
+    elif db.exec_single(("SELECT * FROM users WHERE phone_number = %s", (phone_number, ))) != None:
       return {"success": False, "error": f"phone number {phone_number} already exists"}
     hashed_password = get_hashed_password(password)
-    hashed_password = hashed_password.replace("$", "||||")
-    db.exec_single(f"INSERT INTO users (email, phone_number, encrypted_password) VALUES ('{email}', '{phone_number}', '{hashed_password}');")
+    db.exec_single(("INSERT INTO users (email, phone_number, encrypted_password) VALUES (%s, %s, %s)", (email, phone_number, hashed_password)))
     print(db.exec_single(f"SELECT * from users")) 
     return {"success": True}
 
@@ -43,7 +42,7 @@ def request_verify_user(email):
   with DB() as db:
     db.exec_single(f"INSERT INTO users (token) VALUES ('{token}') WHERE email = {email};")
 
-  print(db.exec_single(f"SELECT * FROM users"))
+    print(db.exec_single(f"SELECT * FROM users"))
   return {"success": True}
 
 def verify_user(email, token):

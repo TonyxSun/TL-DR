@@ -12,7 +12,7 @@ class DB():
         line = None
         vars = None
         if type(statement) is tuple:
-            line, vars = tuple
+            line, vars = statement
         else:
             line = statement
 
@@ -20,7 +20,6 @@ class DB():
         try:
             with conn.cursor() as cur:
                 try:
-                    conn.rollback()
                     cur.execute(line, vars)
                     row = cur.fetchone()
                     conn.commit()
@@ -28,8 +27,7 @@ class DB():
                         return row
                 except Exception as e:
                     print(e)
-        except Exception as e:
-            print(e)
+        except ProgrammingError:
             return
 
     def exec_many(self, statements):
@@ -40,7 +38,7 @@ class DB():
                     line = None
                     vars = None
                     if type(statement) is tuple:
-                        line, vars = tuple
+                        line, vars = statement
                     else:
                         line = statement
                     cur.execute(line, vars)

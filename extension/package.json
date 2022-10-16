@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf dist && webpack && npm run copy:dist",
-    "copy:dist": "cp ./src/popup.html manifest.json ./dist"
+    "build": "rm -rf build && webpack && npm run cp:build",
+    "cp:build": "cp ./src/popup.html ./src/main.js ./src/inject.js manifest.json ./build"
   },
   "keywords": [],
   "author": "",

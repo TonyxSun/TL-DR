@@ -20,7 +20,7 @@ def analyse():
         data_req = request.form['input_data']
     
     tldr = nlp.generateSummery(co, data_req)
-    print(tldr)
+    # can get other attributes (like sentiment weight)
     sentiment_res = nlp.generateSentiment(co, data_req)
     return {"tldr": tldr, "sentiment": sentiment_res.prediction}
 

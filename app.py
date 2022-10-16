@@ -26,7 +26,7 @@ def signup():
         user_phone = content['user_phone']
         
     resp = create(email=user_email, password=user_password, phone_number=user_phone)
-    return {"response": resp}
+    return resp
     
 
 @app.route('/analyze', methods = ['POST'])
@@ -42,5 +42,5 @@ def analyse():
     return {"tldr": tldr, "sentiment": sentiment_res.prediction}
 
 if __name__ == '__main__':
-    setup()
+    # setup()
     app.run()

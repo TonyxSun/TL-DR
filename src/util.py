@@ -18,12 +18,14 @@ class DB():
     conn = self._connection
     try:
       with conn.cursor() as cur:
-          conn.rollback()
+        try:
           cur.execute(line, vars)
           row = cur.fetchone()
           conn.commit()
           if row:
             return row
+        except Exception as e:
+          print(e)
     except ProgrammingError:
         return
 
@@ -40,7 +42,7 @@ class DB():
             line = statement
           cur.execute(line, vars)
         conn.commit()
-    except ProgrammingError:
+    except ProgrammingError: 
         return
 
   def __enter__(self):

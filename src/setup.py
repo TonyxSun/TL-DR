@@ -24,8 +24,7 @@ def setup():
         creation_time TIMESTAMP NOT NULL DEFAULT now(),
         phone_number TEXT NOT NULL,
         verified BOOLEAN DEFAULT FALSE,
-        encrypted_password TEXT NOT NULL,
-        password_salt TEXT NOT NULL
+        encrypted_password TEXT NOT NULL
       )
       """,
       """

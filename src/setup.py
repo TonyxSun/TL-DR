@@ -33,7 +33,7 @@ def setup():
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         original_text TEXT NOT NULL,
         creation_time TIMESTAMP NOT NULL DEFAULT now(),
-        url TEXT NOT NULL,
+        url TEXT,
         tldr_text TEXT NOT NULL,
         version INTEGER NOT NULL DEFAULT 0,
         user_id UUID,
@@ -42,5 +42,3 @@ def setup():
       """
     ])
     setup_state = False
-
-setup()

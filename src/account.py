@@ -84,6 +84,22 @@ def verify_user(email, token):
                 ("UPDATE users SET verified = TRUE where email = %s returning id"), (email, ))
         return {"success": correct_token}
 
+
+def send_to_mobile_func(user_email, tldr_content):
+    account_sid = os.environ['TWILIO_ACCOUNT_SID']
+    auth_token = os.environ['TWILIO_AUTH_TOKEN']
+    client = Client(account_sid, auth_token)
+
+    with DB() as db:
+        phone_number = db.exec_single(
+            ("SELECT phone_number From users WHERE email = %s", (user_email, )))[0]
+    message = client.messages.create(
+        messaging_service_sid='MGa7584f83c0cf733ebf385a02363bbde8',
+        body=tldr_content,
+        to=phone_number
+    )
+    return {"success": True, "message.id": message.sid}
+
 # if __name__ == '__main__':
 #     setup()
 #     Account.create("EMAIL", "PASSWORD", "PHONE_NUMBER")

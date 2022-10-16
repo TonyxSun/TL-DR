@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, redirect, url_for, request
 from src.setup import setup
-from src.account import create_user, login_user, request_verify_user, verify_user
+from src.account import create_user, login_user, request_verify_user, verify_user, send_to_mobile_func
 from src.tldr import check_version, tldr
 from dotenv import load_dotenv
 load_dotenv()
@@ -57,6 +57,15 @@ def verify():
         user_token = content['user_token']
     
     resp = verify_user(email=user_email, token=user_token)
+    return resp
+
+@app.route('/send_to_mobile', methods = ['POST'])
+def send_to_mobile():
+    if request.method == 'POST':
+        content = request.json
+        user_email = content['user_email']
+        user_content = content['tldr']
+    resp = send_to_mobile_func(user_email, user_content)
     return resp
 
 @app.route('/analyze', methods = ['POST'])

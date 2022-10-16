@@ -1,4 +1,4 @@
-from util import *
+from src.util import *
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -41,4 +41,4 @@ def setup():
       )
       """
     ])
-    setup_state = True
+    setup_state = False

@@ -1,12 +1,13 @@
-from util import *
-from setup import setup
+from src.util import *
+from src.setup import setup
 
 def login(email, password):
   pass
 def logout(user_id):
   pass
 def create(email, password, phone_number):
-  pass
+  with DB() as db:
+    return db.exec_single(f"""SELECT 1 FROM users WHERE email = "{email}";""")
 def verify(email, token):
   pass
 

@@ -17,6 +17,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Installing certificate for Postgres
+        run: curl --create-dirs -o $HOME/.postgresql/root.crt -O https://cockroachlabs.cloud/clusters/02d0901b-5fb2-4a67-b68c-654b2c8c7731/cert
+        shell: bash
+
       - name: Set up Python version
         uses: actions/setup-python@v1
         with:

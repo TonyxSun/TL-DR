@@ -17,10 +17,11 @@ def api():
 @app.route('/signup', methods = ['POST'])
 def signup():
     if request.method == 'POST':
-        user_email = request.form['user_email']
-        user_password = request.form['user_password']
-        user_phone = request.form['user_phone']
-    create(email=user_email, password=user_password, phone_number=user_phone)
+        user_email = request.args['user_email']
+        user_password = request.args['user_password']
+        user_phone = request.args['user_phone']
+    resp = create(email=user_email, password=user_password, phone_number=user_phone)
+    return {"response": resp}
     
 
 @app.route('/analyze', methods = ['POST'])

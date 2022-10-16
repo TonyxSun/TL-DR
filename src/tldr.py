@@ -1,13 +1,16 @@
 from src.util import *
 from src.setup import setup
 
-def checkVersion(text):
+def checkVersion(user_id, text):
   # return 0 if not in table, otherwise return the newest version number
+  # with DB() as db:
+  #   if db.exec_single(("SELECT * FROM tldr WHERE user_id  = %s", (user_id, ))) != None:
+
   return 0
 
 def tldr(user_id, text, tldr_text, url=""):
   with DB() as db:
-    version = checkVersion(text)
+    version = checkVersion(user_id, text)
     users = db.exec_single('select * from users')
     print(users)
     tldr_insert = db.exec_single(("INSERT INTO tldr (original_text, url, tldr_text, version, user_id) VALUES (%s, %s, %s, %s, %s)", (text, url, tldr_text, version, user_id)))

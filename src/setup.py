@@ -35,6 +35,10 @@ def setup():
         creation_time TIMESTAMP NOT NULL DEFAULT now(),
         url TEXT,
         tldr_text TEXT NOT NULL,
+        sentiment TEXT NOT NULL,
+        negativeVal NUMERIC NOT NULL,
+        positiveVal NUMERIC NOT NULL,
+        neutralVal NUMERIC NOT NULL,
         version INTEGER NOT NULL DEFAULT 0,
         user_id UUID,
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
@@ -42,4 +46,4 @@ def setup():
       """
     ])
     setup_state = False
-# setup()
+setup()

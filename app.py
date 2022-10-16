@@ -71,18 +71,21 @@ def analyze():
             return {"response": "No input"}
 
     # transform into text
-    if (scraper.validateUrl(input_data)):
-        t = scraper.scrape(input_data)
-        # print(t)
-        input_data = t
-    
+    urlUsed = scraper.validateUrl(input_data)
+    if (urlUsed):
+        url = input_data
+        input_data = scraper.scrape(input_data)
     
     # generate TLDR
     tldr_text = nlp.generateSummery(co, input_data)
     # print(tldr_text)
     # generate sentiment (pos, neg, neut)
     sentiment_res = nlp.generateSentiment(co, input_data)
-    resp = tldr(user_id, "", input_data.replace("'", "\""), tldr_text.replace("'", "\""))
+    if (urlUsed):
+        resp = tldr(user_id, url, "", tldr_text.replace("'", "\""))
+    else:
+        resp = tldr(user_id, "", input_data.replace("'", "\""), tldr_text.replace("'", "\""))
+    
     return {"response": resp, "tldr": tldr_text, "sentiment_obj": sentiment_res[1]}
 
 if __name__ == '__main__':

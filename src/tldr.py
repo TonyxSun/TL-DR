@@ -13,7 +13,7 @@ def tldr(user_id, text, tldr_text, url=""):
     tldr_insert = db.exec_single(("INSERT INTO tldr (original_text, url, tldr_text, version, user_id) VALUES (%s, %s, %s, %s, %s)", (text, url, tldr_text, version, user_id)))
     tldr = db.exec_single('select * from tldr')
     print(tldr)
-    return {'Success':"True"}
+    return {'success':True}
 
 def revise_tldr(user_id, text, tldr_text, url="",version=1):
   with DB() as db:

@@ -38,7 +38,7 @@ def login():
     resp = login_user(email=user_email, password=user_password)
     return resp
 
-@app.route('/request_verify', method = ['POST'])
+@app.route('/request_verify', methods = ['POST'])
 def request_verify():
     if request.method == 'POST':
         content = request.json

@@ -28,7 +28,8 @@ class DB():
                         return row
                 except Exception as e:
                     print(e)
-        except ProgrammingError:
+        except Exception as e:
+            print(e)
             return
 
     def exec_many(self, statements):

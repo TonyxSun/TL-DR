@@ -35,6 +35,7 @@ def create_user(email, password, phone_number):
     hashed_password = get_hashed_password(password)
     hashed_password = hashed_password.replace("$", "||||")
     db.exec_single(f"INSERT INTO users (email, phone_number, encrypted_password) VALUES ('{email}', '{phone_number}', '{hashed_password}');")
+    print(db.exec_single(f"SELECT * from users")) 
     return {"success": True}
 
 def request_verify_user(email):

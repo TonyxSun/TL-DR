@@ -6,7 +6,7 @@ load_dotenv()
 import os, cohere
 import nlp
 
-os.system("curl --create-dirs -o $HOME/.postgresql/root.crt -O https://cockroachlabs.cloud/clusters/02d0901b-5fb2-4a67-b68c-654b2c8c7731/cert")
+# os.system("curl --create-dirs -o $HOME/.postgresql/root.crt -O https://cockroachlabs.cloud/clusters/02d0901b-5fb2-4a67-b68c-654b2c8c7731/cert")
 
 app = Flask(__name__)
 api_key = os.getenv('COHERE_KEY')
@@ -19,9 +19,6 @@ def api():
 @app.route('/signup', methods = ['POST'])
 def signup():
     if request.method == 'POST':
-        # user_email = request.args['user_email']
-        # user_password = request.args['user_password']
-        # user_phone = request.args['user_phone']
         content = request.json
         user_email = content['user_email']
         user_password = content['user_password']

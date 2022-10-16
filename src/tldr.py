@@ -13,6 +13,6 @@ def revise_tldr(text, tldr_text):
   # Revising the text
   pass
 
-if __name__ == "__main__":
-  setup()
-  tldr("40e6215d-b5c6-4896-987c-f30f3678f608", "", "long_text", "tldr_text", 0)
+# if __name__ == "__main__":
+#   # setup()
+#   tldr("40e6215d-b5c6-4896-987c-f30f3678f608", "", "long_text", "tldr_text", 0)

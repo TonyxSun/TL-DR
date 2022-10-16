@@ -6,14 +6,25 @@ def get_hashed_password(plain_text_password):
     return bcrypt.hashpw(plain_text_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
 def check_password(plain_text_password, hashed_password):
-    return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_password)
+    return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_password.encode('utf-8'))
 
 
-def login(email, password):
+def login_user(email, password):
+  with DB() as db:
+    if db.exec_single(f"""SELECT 1 FROM users WHERE email = '{email}';""") == None:
+      return {"success": False, "error": f"email {email} does not exist"}
+
+    hashed_password = db.exec_single(f"""SELECT encrypted_password FROM users WHERE email = '{email}';""")[0]
+    hashed_password = hashed_password.replace("||||", "$")
+
+
+    password_correct = check_password(password, hashed_password)
+
+    return {"success": password_correct}
+    
+def logout_user(user_id):
   pass
-def logout(user_id):
-  pass
-def create(email, password, phone_number):
+def create_user(email, password, phone_number):
   with DB() as db:
     if db.exec_single(f"""SELECT 1 FROM users WHERE email = '{email}';""") != None:
       return {"success": False, "error": f"email {email} already exists"}

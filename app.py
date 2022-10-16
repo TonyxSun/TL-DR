@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, redirect, url_for, request
 from src.setup import setup
-from src.account import create
+from src.account import create_user, login_user
 from dotenv import load_dotenv
 load_dotenv()
 import os
@@ -25,7 +25,17 @@ def signup():
         user_password = content['user_password']
         user_phone = content['user_phone']
         
-    resp = create(email=user_email, password=user_password, phone_number=user_phone)
+    resp = create_user(email=user_email, password=user_password, phone_number=user_phone)
+    return resp
+
+@app.route('/login', methods = ['POST'])
+def login():
+    if request.method == 'POST':
+        content = request.json
+        user_email = content['user_email']
+        user_password = content['user_password']
+
+    resp = login_user(email=user_email, password=user_password)
     return resp
     
 

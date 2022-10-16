@@ -5,33 +5,32 @@ import validators
 import re
 from urllib.request import urlopen
 
+
 def validateUrl(url):
-    valid=validators.url(url)
-    if valid==True or url.rfind(".com") != -1 or url.rfind(".ca") != -1:
+    valid = validators.url(url)
+    if valid == True or url.rfind(".com") != -1 or url.rfind(".ca") != -1:
         print("Url is valid")
         return True
     else:
         print("Invalid url")
         return False
 
+
 def scrape(url):
     try:
         if "wikipedia" in url:
-            source = urlopen(url).read()
-            soup = BeautifulSoup(source,'lxml')
+            soupped = BeautifulSoup(urlopen(url).read(), 'lxml')
             text = ''
-            for paragraph in soup.find_all('p'):
+            for paragraph in soupped.find_all('p'):
                 text += paragraph.text
-            text = re.sub(r'\[.*?\]+', '', text)
-            text = text.replace('\n', '')
-            return text
+            return re.sub(r'\[.*?\]+', '', text).replace('\n', '')
         else:
             # getting response object
             res = requests.get(url)
-            
+
             # Initialize the object with the document
             soup = BeautifulSoup(res.content, "html.parser")
-            
+
             out = ""
             for para in soup.find_all("p"):
                 text = para.get_text()
@@ -56,4 +55,3 @@ def scrape(url):
 
 # supported:
 # https://www.msn.com/en-ca/news/other/joe-biden-s-comment-on-california-gas-prices-left-both-allies-and-adversaries-confused/ar-AA1306dD?ocid=msedgntp&cvid=fd6cece1daba482ee491c00e7821927d
-

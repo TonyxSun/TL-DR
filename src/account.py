@@ -1,6 +1,8 @@
 from src.util import *
 from src.setup import setup
 import bcrypt
+from twilio.rest import Client
+import random, string
 
 def get_hashed_password(plain_text_password):
     return bcrypt.hashpw(plain_text_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
@@ -35,7 +37,15 @@ def create_user(email, password, phone_number):
     db.exec_single(f"INSERT INTO users (email, phone_number, encrypted_password) VALUES ('{email}', '{phone_number}', '{hashed_password}');")
     return {"success": True}
 
-def verify(email, token):
+def request_verify_user(email):
+  token = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
+  with DB() as db:
+    db.exec_single(f"INSERT INTO users (token) VALUES ('{token}') WHERE email = {email};")
+
+  print(db.exec_single(f"SELECT * FROM users"))
+  return {"success": True}
+
+def verify_user(email, token):
   pass
 
 # if __name__ == '__main__':

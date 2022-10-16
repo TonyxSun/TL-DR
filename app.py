@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, redirect, url_for, request
 from src.setup import setup
-from src.account import create_user, login_user
+from src.account import create_user, login_user, request_verify_user
 from dotenv import load_dotenv
 load_dotenv()
 import os
@@ -37,7 +37,15 @@ def login():
 
     resp = login_user(email=user_email, password=user_password)
     return resp
+
+@app.route('/request_verify', method = ['POST'])
+def request_verify():
+    if request.method == 'POST':
+        content = request.json
+        user_email = content['user_email']
     
+    resp = request_verify_user(email=user_email)
+    return resp
 
 @app.route('/analyze', methods = ['POST'])
 def analyse():

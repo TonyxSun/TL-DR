@@ -24,7 +24,8 @@ def setup():
         creation_time TIMESTAMP NOT NULL DEFAULT now(),
         phone_number TEXT NOT NULL,
         verified BOOLEAN DEFAULT FALSE,
-        encrypted_password TEXT NOT NULL
+        encrypted_password TEXT NOT NULL,
+        token TEXT DEFAULT NULL
       )
       """,
       """
@@ -41,3 +42,5 @@ def setup():
       """
     ])
     setup_state = False
+
+setup()

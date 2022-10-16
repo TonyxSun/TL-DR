@@ -38,11 +38,11 @@
 }
 
 .input input:focus ~ .label {
-  top: 0%;
+  top: -50%;
   // transform: translateY(50%);
 }
 
 .input input:not(:focus):valid ~ .label {
-  top: 0%;
+  top: -50%;
   // transform: translateY(50%);
 }

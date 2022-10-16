@@ -13,4 +13,10 @@
   &:hover {
     box-shadow: 0.25em 0.25em 0 black;
   }
+  &:active {
+    transition: 0.1s ease all;
+    background-color: black;
+    color: white;
+    box-shadow: 0 0 0 black;
+  }
 }

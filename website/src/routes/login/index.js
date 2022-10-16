@@ -3,6 +3,7 @@ import { h } from 'preact';
 import style from './style.scss';
 import InputText from '../../components/input-text';
 import Button from '../../components/button';
+import { Link } from 'preact-router/match';
 
 const Login = () => (
   <div class={style.login_outer_wrapper}>
@@ -15,7 +16,7 @@ const Login = () => (
         </div>
         <div class={style.header}>
           <span invisible>Sign Up</span>
-          <span>Sign Up</span>
+          <Link href="/register">Sign Up</Link>
         </div>
       </div>
       <div class={style.login}>
@@ -23,7 +24,7 @@ const Login = () => (
           <InputText>Email</InputText>
         </div>
         <div class={style.item}>
-          <InputText>Password</InputText>
+          <InputText type="password">Password</InputText>
         </div>
         <div class={style.item}>
           <div class={style.submit}>

@@ -10,6 +10,7 @@
     font-size: 5em;
     color: black;
     margin-bottom: 0.25em;
+    text-shadow: 0.05em 0.05em 0 rgba(black, 0.3);
   }
   .login_inner_wrapper {
     max-width: 50vw;
@@ -25,7 +26,12 @@
       .header {
         position: relative;
         
-        span {
+        a {
+          color: black;
+          text-decoration: none;
+        }
+
+        span, a {
           padding: 1em 2em;
           font-weight: 200;
           display: block;
@@ -37,7 +43,17 @@
           opacity: 0;
           user-select: none;
         }
+        a[invisible] {
+          opacity: 0;
+          user-select: none;
+        }
         span:not([invisible]) {
+          position: absolute;
+          top: calc(50% + 2px);
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+        a:not([invisible]) {
           position: absolute;
           top: calc(50% + 2px);
           left: 50%;

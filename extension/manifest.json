@@ -1,0 +1,10 @@
+{
+  "name": "TLDR",
+  "description": "",
+  "version": "0.0.1",
+  "browser_action": {
+    "default_title": "TLDR",
+    "default_popup": "popup.html"
+  },
+  "manifest_version": 2
+}

@@ -3,14 +3,15 @@ from src.setup import setup
 from src.account import create
 from dotenv import load_dotenv
 load_dotenv()
-import os, cohere
+import os
+# import cohere
 import nlp
 
-# os.system("curl --create-dirs -o $HOME/.postgresql/root.crt -O https://cockroachlabs.cloud/clusters/02d0901b-5fb2-4a67-b68c-654b2c8c7731/cert")
+os.system("curl --create-dirs -o $HOME/.postgresql/root.crt -O https://cockroachlabs.cloud/clusters/02d0901b-5fb2-4a67-b68c-654b2c8c7731/cert")
 
 app = Flask(__name__)
 api_key = os.getenv('COHERE_KEY')
-co = cohere.Client(api_key)
+# co = cohere.Client(api_key)
 
 @app.route('/')
 def api(): 
@@ -28,17 +29,17 @@ def signup():
     return {"response": resp}
     
 
-@app.route('/analyze', methods = ['POST'])
-def analyse():
-    if request.method == 'POST':
-        print(request)
-        user_req = request.form['user_data']
-        data_req = request.form['input_data']
+# @app.route('/analyze', methods = ['POST'])
+# def analyse():
+#     if request.method == 'POST':
+#         print(request)
+#         user_req = request.form['user_data']
+#         data_req = request.form['input_data']
     
-    tldr = nlp.generateSummery(co, data_req)
-    # can get other attributes (like sentiment weight)
-    sentiment_res = nlp.generateSentiment(co, data_req)
-    return {"tldr": tldr, "sentiment": sentiment_res.prediction}
+#     tldr = nlp.generateSummery(co, data_req)
+#     # can get other attributes (like sentiment weight)
+#     sentiment_res = nlp.generateSentiment(co, data_req)
+#     return {"tldr": tldr, "sentiment": sentiment_res.prediction}
 
 if __name__ == '__main__':
     setup()
